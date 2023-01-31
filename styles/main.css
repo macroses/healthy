@@ -1,0 +1,12 @@
+@import "./vars/variables.css";
+@import "./vars/reset.css";
+
+/*UI*/
+@import './UI/input-text.css';
+@import './UI/button.css';
+@import './UI/dropdown.css';
+
+/*lg*/
+@import './wrappers/wrapper.css';
+@import './lg/base.css';
+@import './lg/header.css';
