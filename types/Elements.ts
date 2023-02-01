@@ -8,6 +8,5 @@ export interface DropdownItem {
 
 export enum QueryStatus {
   loading,
-  done,
-  error
+  done
 }

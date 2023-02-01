@@ -7,13 +7,9 @@
     <NuxtLink
       class="header__logo"
       to="/">
-      <UIIcon
-        name="heart-pulse" width="25px" />
+      <UIIcon name="heart-pulse" width="25px" fill="red"/>
     </NuxtLink>
-    <NuxtLink to="/home">home</NuxtLink>
-    <div class="header__theme">
-
-    </div>
-
+    <HeaderTheme />
+    <HeaderAccount />
   </header>
 </template>

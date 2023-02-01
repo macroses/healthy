@@ -8,5 +8,5 @@
 
 /*lg*/
 @import './wrappers/wrapper.css';
-@import './lg/base.css';
-@import './lg/header.css';
+@import './base.css';
+@import './header.css';

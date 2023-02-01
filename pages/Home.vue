@@ -8,9 +8,4 @@ definePageMeta({
 
 <template>
   <p>its home</p>
-  <p>{{ user }}</p>
 </template>
-
-<style scoped>
-
-</style>

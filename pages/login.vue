@@ -2,24 +2,15 @@
 const user = useSupabaseUser();
 const email = ref('');
 const password = ref('');
-const errorMsg = ref('');
-const { auth } = useSupabaseAuthClient();
-const userLogin = async () => {
-  try {
-    const { error } = await auth.signInWithPassword({
-      email: email.value,
-      password: password.value,
-    });
-    email.value = '';
-    password.value = '';
-    if (error) throw error;
-  } catch (error: any) {
-    errorMsg.value = error.message;
-    setTimeout(() => {
-      errorMsg.value = '';
-    }, 3000);
-  }
-};
+
+const { loginUser, status, errorMsg } = useLoginWithPassword()
+
+const handleSubmit = () => {
+  loginUser(email.value, password.value)
+  email.value = ''
+  password.value = ''
+}
+
 watchEffect(() => {
   if (user.value) {
     return navigateTo('/home');
@@ -29,7 +20,7 @@ watchEffect(() => {
 
 <template>
 
-  <form @submit.prevent="userLogin">
+  <form @submit.prevent="handleSubmit">
     <h2>Login</h2>
     <div>
       <label>Email</label>
@@ -54,9 +45,7 @@ watchEffect(() => {
     <button type="submit">Submit</button>
     <span v-if="errorMsg">{{ errorMsg }}</span>
     <p>You don't have an account yet?</p>
-    <NuxtLink to="/register">Register</NuxtLink>
-    <p>{{ user }}</p>
+    <NuxtLink to="/">Register</NuxtLink>
   </form>
-
 </template>
 

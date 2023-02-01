@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-const props = defineProps<{
+defineProps<{
   width: string;
   name: string;
   fill?: string;
@@ -7,7 +7,7 @@ const props = defineProps<{
 </script>
 
 <template>
-  <svg viewBox="0 0 24 24" :width="width" :style="{ fill: fill }">
+  <svg viewBox="0 0 24 24" :width="width">
     <use :xlink:href="`/light.svg#${name}`"></use>
   </svg>
 </template>
@@ -15,6 +15,6 @@ const props = defineProps<{
 <style scoped>
 svg {
   height: auto;
-//fill: var(--color-icon);
+  fill: v-bind(fill);
 }
 </style>

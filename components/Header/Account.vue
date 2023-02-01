@@ -1,27 +1,28 @@
 <script setup lang="ts">
-const client = useSupabaseAuthClient();
-const user = useSupabaseUser();
+const client = useSupabaseAuthClient()
+const user = useSupabaseUser()
+const router = useRouter()
 
 const userLogout = async () => {
-  await client.auth.signOut();
+  await client.auth.signOut()
   user.value = null
-};
+  navigateTo('/login')
+}
 
 const isMenuActive = ref(false)
-
+const userAvatar = ref(null)
 const toggleMenu = () => isMenuActive.value = !isMenuActive.value
 
-watchEffect(() => {
-  if (!user.value) return navigateTo('/login');
-})
+clickOutside(userAvatar, () => isMenuActive.value = false)
 </script>
 
 <template>
-  <div class="header__account">
+  <div class="header__account" v-if="user">
     <div
+      ref="userAvatar"
       @click="toggleMenu"
       class="header__account-avatar">
-      {{ user.email[0].toUpperCase() }}
+      {{ user.email[0] }}
     </div>
     <div class="header__account-menu" :class="{active: isMenuActive}">
       <ul class="header__account-list">
@@ -34,26 +35,3 @@ watchEffect(() => {
     </div>
   </div>
 </template>
-
-<style>
-.header__account {
-  position: relative;
-}
-
-.header__account-menu {
-  display: grid;
-  grid-template-rows: 0fr;
-  overflow: hidden;
-  transition: grid-template-rows var(--t-primary);
-}
-
-.header__account-list {
-  min-height: 0;
-  transition: visibility 1s;
-}
-
-.header__account-menu.active {
-  grid-template-rows: 1fr;
-}
-
-</style>

@@ -1,0 +1,50 @@
+.header {
+	display: flex;
+	align-items: center;
+	padding: 8px;
+	box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+	border-radius: var(--radius-md);
+	container-type: inline-size;
+	container-name: header;
+	background-color: rgba(255, 255, 255, 0.8);
+}
+
+.header__account {
+	position: relative;
+}
+
+.header__account-menu {
+	display: grid;
+	grid-template-rows: 0fr;
+	overflow: hidden;
+	transition: grid-template-rows var(--t-primary);
+	position: absolute;
+	top: 100%;
+	right: 0;
+}
+
+.header__account-list {
+	min-height: 0;
+	transition: visibility 1s;
+}
+
+.header__account-menu.active {
+	grid-template-rows: 1fr;
+}
+
+.header__account {
+	background-color: #006680;
+	color: #fff;
+	display: flex;
+	text-transform: uppercase;
+	font-weight: bold;
+	border-radius: 50%;
+	width: 30px;
+	height: 30px;
+	align-items: center;
+	justify-content: center;
+}
+
+.header__theme {
+	margin-left: auto;
+}

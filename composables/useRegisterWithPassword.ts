@@ -1,4 +1,5 @@
 import {QueryStatus} from "~/types/Elements";
+import {resetByTimeout} from "~/utils/resetByTimeout";
 
 export const useRegisterWithPassword = () => {
   const status = ref(QueryStatus.done)
@@ -6,14 +7,11 @@ export const useRegisterWithPassword = () => {
   const successMsg = ''
 
   const regUser = async (email: string, password: string, confirmPassword: string) => {
-
     const { auth } = useSupabaseAuthClient()
 
     if (password !== confirmPassword) {
       errorMsg.value = 'Passwords do not match!';
-      setTimeout(() => {
-        errorMsg.value = '';
-      }, 3000);
+      resetByTimeout(errorMsg, 3000)
       return;
     }
 
@@ -26,9 +24,7 @@ export const useRegisterWithPassword = () => {
 
       if(data?.user?.identities?.length === 0){
         errorMsg.value = "This user already exists"
-        setTimeout(() => {
-          errorMsg.value = '';
-        }, 3000);
+        resetByTimeout(errorMsg, 3000)
       }
 
       status.value = QueryStatus.done
@@ -37,9 +33,7 @@ export const useRegisterWithPassword = () => {
     }
     catch (e: any) {
       errorMsg.value = e.message
-      setTimeout(() => {
-        errorMsg.value = '';
-      }, 3000);
+      resetByTimeout(errorMsg, 3000)
     }
   }
 
