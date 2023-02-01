@@ -12,7 +12,6 @@ watchEffect(() => {
     return navigateTo('/login');
   }
 });
-
 </script>
 
 <template>

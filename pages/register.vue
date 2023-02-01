@@ -1,46 +1,30 @@
 <script setup lang="ts">
-const user = useSupabaseUser();
-const email = ref('');
-const password = ref('');
-const confirmPassword = ref('');
-const errorMsg = ref('');
-const { auth } = useSupabaseClient();
-const userRegister = async () => {
-  if (password.value !== confirmPassword.value) {
-    errorMsg.value = 'Passwords do not match!';
-    password.value = '';
-    confirmPassword.value = '';
-    setTimeout(() => {
-      errorMsg.value = '';
-    }, 3000);
-    return;
-  }
-  try {
-    const { error } = await auth.signUp({
-      email: email.value,
-      password: password.value,
-    });
-    email.value = '';
-    password.value = '';
-    confirmPassword.value = '';
-    if (error) throw error;
-  } catch (error) {
-    errorMsg.value = error.message;
-    setTimeout(() => {
-      errorMsg.value = '';
-    }, 3000);
-  }
-};
+import {useRegisterWithPassword} from "~/composables/useRegisterWithPassword";
+import {QueryStatus} from "~/types/Elements";
+
+const user = useSupabaseUser()
+const email = ref('')
+const password = ref('')
+const confirmPassword = ref('')
+
+const { regUser, status, errorMsg, successMsg } = useRegisterWithPassword()
 watchEffect(() => {
   if (user.value) {
     return navigateTo('/');
   }
 });
+
+const handleSubmit = () => {
+  regUser(email.value, password.value, confirmPassword.value)
+  email.value = ''
+  password.value = ''
+  confirmPassword.value = ''
+}
 </script>
 
 <template>
   <section>
-    <form @submit.prevent="userRegister">
+    <form @submit.prevent="handleSubmit">
       <h2>Register</h2>
       <div>
         <label for="email">Email</label>
@@ -70,8 +54,11 @@ watchEffect(() => {
           name="confirmPassword"
         />
       </div>
-      <button type="submit"> Submit</button>
+      <button type="submit">
+        {{ status === QueryStatus.loading ? 'Loading...': 'Submit' }}
+      </button>
       <span v-if="errorMsg">{{ errorMsg }}</span>
+      <p v-if="successMsg">{{ successMsg }}</p>
       <p>Do you have an account yet?</p>
       <nuxt-link to="/login">Login</nuxt-link>
     </form>
