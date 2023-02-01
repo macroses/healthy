@@ -4,7 +4,7 @@
 
 <template>
   <div class="wrapper">
-    <LgHeader/>
+    <HeaderWrapper />
     <main class="main">
       <slot/>
     </main>

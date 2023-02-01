@@ -3,10 +3,10 @@ const user = useSupabaseUser();
 const email = ref('');
 const password = ref('');
 const errorMsg = ref('');
-const client = useSupabaseAuthClient();
+const { auth } = useSupabaseAuthClient();
 const userLogin = async () => {
   try {
-    const {error} = await client.auth.signInWithPassword({
+    const { error } = await auth.signInWithPassword({
       email: email.value,
       password: password.value,
     });
@@ -15,14 +15,16 @@ const userLogin = async () => {
     if (error) throw error;
   } catch (error: any) {
     errorMsg.value = error.message;
+    setTimeout(() => {
+      errorMsg.value = '';
+    }, 3000);
   }
 };
 watchEffect(() => {
   if (user.value) {
-    useRouter().push('/home')
+    return navigateTo('/home');
   }
 });
-
 </script>
 
 <template>
